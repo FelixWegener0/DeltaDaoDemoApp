@@ -25,9 +25,9 @@ const App = () => {
   }
    
   useEffect(() => {
-    fetch("https://aquarius.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
+    fetch("https://aquarius.gaiaxtestnet.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
       method: "POST",
-      body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": 9,\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"(chainId:4 OR chainId:3) AND -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
+      body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": 10,\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"-isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
       headers: headersList
     })
     .then((response) => response.json())
@@ -38,15 +38,13 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}> 
 
-      <Text style={styles.ueberschrift}>Ocean portable Market</Text>
-          
       <TouchableHighlight onPress = {() => Alert.alert('Open Website', 'Leaving App and open the Ocan Marketplace?', [
-              {text: "Yes", onPress: () => Linking.openURL('https://market.oceanprotocol.com/')},
-              {text: "No"},
-          ])}>
-          <Text style={{color: 'white',}}>A marketplace to find, publish and trade data sets in the Ocean Network.</Text>
+          {text: "Yes", onPress: () => Linking.openURL('https://market.oceanprotocol.com/')},
+          {text: "No"},
+        ])}>
+        <Text style={styles.ueberschrift}>Gaia-X Portal (powered by Ocean Protocol)</Text>
       </TouchableHighlight>
-      
+      <Text style={{color: 'white',}}>trade data sets in the Gaia-X network (powered by Ocean Protocol)</Text>
       
       
       <FlatList
@@ -59,7 +57,7 @@ const App = () => {
 
           return <Kachel 
           
-            headline={metadata.attributes.main.type}
+            headline={metadata.attributes.main.name}
             date={metadata.attributes.main.dateCreated} 
             author={metadata.attributes.main.author}
             id={item.id}
