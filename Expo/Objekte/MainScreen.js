@@ -1,3 +1,5 @@
+// Wird in aktueller fassung nicht genutzt
+
 import React, { useEffect, useState } from 'react';
 import { 
   Text,
@@ -18,7 +20,7 @@ import styles from '../CSS/css';
 import Kachel from './Kacheln';
 
 import 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import Animated, { set } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 
@@ -32,17 +34,21 @@ function MainScreen( { navigation, route } ) {
     const [search, setSearch] = useState('');
 
 
+    const [ApiString, setString] = useState('');
+    const [textinput, setTextInput] = useState('');
+
+
     const renderContent = () => (
         <View style={styles.bottomSheet}>
             <View style={styles.button}>  
                 <TouchableHighlight onPress = {() => {if(page > 1 ) {setPage(page - 1)}} }>
-                <Text style={{color: 'white'}}>Last Page    </Text>
+                    <Text style={{color: 'white'}}>Last Page    </Text>
                 </TouchableHighlight>
 
                 <Text style={{color: 'white'}}>current Page: {page}     	</Text>
 
                 <TouchableHighlight onPress = {() => setPage(page + 1)}>
-                <Text style={{color: 'white'}}>Next Page</Text>
+                    <Text style={{color: 'white'}}>Next Page</Text>
                 </TouchableHighlight>
             </View>
 
@@ -50,11 +56,14 @@ function MainScreen( { navigation, route } ) {
             <View style={styles.containerAssetsProSeite}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setAnzahlAssets}
-                    value={String('')}
+                    onChangeText={setTextInput}
+                    value={String(textinput)}
                     placeholder="anzahl Assets Pro Seite"
                     keyboardType="default"
                 />
+                <Button onPress = {() => {
+                    setAnzahlAssets(textinput);
+                }} title='submit'/>
             </View>
 
             {/*Eingabe für Search funktion*/}
@@ -66,11 +75,17 @@ function MainScreen( { navigation, route } ) {
                     placeholder="Search"
                     keyboardType="default"
                 />
+                <Button onPress = {() => {
+                    if(search === '') {
+                        setString('');
+                    } else {
+                        setString('europe AND service.attributes.main.name:' + search + ' AND');
+                    }
+                }} title='submit' />
             </View>
             
         </View>
     );
-
 
 
     let headersList = {
@@ -82,12 +97,12 @@ function MainScreen( { navigation, route } ) {
     useEffect(() => {
         fetch("https://aquarius.gaiaxtestnet.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
         method: "POST",
-        body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"-isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
+        body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"${ApiString} -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
         headers: headersList
         })
         .then((response) => response.json())
         .then((json) => setData(json));
-    }, [page, anzahlAssets])
+    }, [page, anzahlAssets, ApiString])
 
 
 
@@ -111,15 +126,6 @@ function MainScreen( { navigation, route } ) {
 
                 const metadata = item.service.find(service => service.type === 'metadata')
 
-                if(search !== '') {
-                    const datasets = item.service.results.filter((item) => {
-                        const metadata = item.service.find((svc) => svc.type === 'metadata')
-                        return metadata.attributes.main.type === 'dataset'
-                    })
-
-                    metadata = datasets;
-                }
-
                 return <Kachel 
                 
                     headline={metadata.attributes.main.name}
@@ -134,7 +140,7 @@ function MainScreen( { navigation, route } ) {
             
             <BottomSheet
                 ref={sheetRef}
-                snapPoints={['50%', '1%']}
+                snapPoints={['25%', '1%']}
                 initialSnap={1}
                 borderRadius={10}
                 renderContent={renderContent}

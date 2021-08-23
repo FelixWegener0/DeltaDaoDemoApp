@@ -1,3 +1,5 @@
+// Wird in aktueller fassung nicht genutzt
+
 import React, { useEffect } from 'react';
 import { 
   View, 
