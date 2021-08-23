@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-      padding: 50,
+      padding: 25,
       flex: 1,
       backgroundColor: 'black',
     },
@@ -31,7 +31,42 @@ const styles = StyleSheet.create({
     defaulttext: {
       color: 'black',
       fontSize: 12,
-      //textAlign: 'center',
+    },
+    //Container Search box
+    containerAssetsProSeite: {
+      backgroundColor: 'white', 
+      flexDirection: "row",
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    // Text Input Search
+    input: {
+      color: 'black',
+      height: 40,
+      width: '80%',
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+    },
+    // Buttons zum wechseln der Seite
+    button: {
+      flexDirection: "row",
+      height: 50,
+      width: 280,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    scrollView: {
+      flex: 1,
+      backgroundColor: 'pink',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    // Bottom sheet
+    bottomSheet: {
+      backgroundColor: 'black', 
+      alignItems: 'center', 
+      justifyContent: 'center',
     }
   });
 
