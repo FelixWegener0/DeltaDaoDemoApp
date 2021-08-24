@@ -21,12 +21,11 @@ function App () {
   const [data1, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [anzahlAssets, setAnzahlAssets] = useState(10);
-  const sheetRef = React.useRef(null);
-  const enableContent = false;
   const [search, setSearch] = useState('');
   const [ApiString, setString] = useState('');
   const [textinput, setTextInput] = useState('');
-
+  const sheetRef = React.useRef(null);
+  const enableContent = false;
 
   const renderContent = () => (
     <View style={styles.bottomSheet}>
@@ -91,9 +90,9 @@ function App () {
 
   useEffect(() => {
     fetch("https://aquarius.gaiaxtestnet.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
-    method: "POST",
-    body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"${ApiString} -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
-    headers: headersList
+      method: "POST",
+      body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"${ApiString} -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
+      headers: headersList
     })
     .then((response) => response.json())
     .then((json) => setData(json));
