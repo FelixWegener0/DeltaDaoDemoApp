@@ -56,7 +56,11 @@ function App () {
           keyboardType="default"
         />
         <Button onPress = {() => {
-          setAnzahlAssets(textinput);
+          if(textinput === '') {
+            setAnzahlAssets(10);
+          } else {
+            setAnzahlAssets(textinput);
+          }
         }} title='submit'/>
       </View>
 
@@ -101,65 +105,65 @@ function App () {
 
 
   let headersList = {
-      "Accept": "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.io)",
-      "Content-Type": "application/json"
+    "Accept": "*/*",
+    "User-Agent": "Thunder Client (https://www.thunderclient.io)",
+    "Content-Type": "application/json"
   }
 
   useEffect(() => {
-      fetch("https://aquarius.gaiaxtestnet.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
-      method: "POST",
-      body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"${ApiString} -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
-      headers: headersList
-      })
-      .then((response) => response.json())
-      .then((json) => setData(json));
+    fetch("https://aquarius.gaiaxtestnet.oceanprotocol.com/api/v1/aquarius/assets/ddo/query", { 
+    method: "POST",
+    body: `{\r\n    \"cancelToken\": {\r\n        \"promise\": {}\r\n    },\r\n    \"offset\": ${anzahlAssets},\r\n    \"page\": ${page},\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"${ApiString} -isInPurgatory:true \"\r\n        }\r\n    },\r\n    \"sort\": {\r\n        \"created\": -1\r\n    }\r\n}`,
+    headers: headersList
+    })
+    .then((response) => response.json())
+    .then((json) => setData(json));
   }, [page, anzahlAssets, ApiString])
 
 
 
   return (
-      <SafeAreaView style={styles.container}> 
-          
-          <TouchableHighlight onPress = {() => Alert.alert('Open Website', 'Leaving App and open the Ocan Marketplace?', [
-              {text: "Yes", onPress: () => Linking.openURL('https://market.oceanprotocol.com/')},
-              {text: "No"},
-              ])}>
-              <Text style={styles.ueberschrift}>Gaia-X Portal (powered by Ocean Protocol)</Text>
-          </TouchableHighlight>
+    <SafeAreaView style={styles.container}> 
+      
+      <TouchableHighlight onPress = {() => Alert.alert('Open Website', 'Leaving App and open the Ocan Marketplace?', [
+        {text: "Yes", onPress: () => Linking.openURL('https://market.oceanprotocol.com/')},
+        {text: "No"},
+        ])}>
+        <Text style={styles.ueberschrift}>Gaia-X Portal (powered by Ocean Protocol)</Text>
+      </TouchableHighlight>
 
-          <Text style={{color: 'white',}}>trade data sets in the Gaia-X network (powered by Ocean Protocol)</Text>
+      <Text style={{color: 'white',}}>trade data sets in the Gaia-X network (powered by Ocean Protocol)</Text>
 
-          <FlatList
-              data = {data1.results}
-              keyExtractor={item => item.id}
+      <FlatList
+        data = {data1.results}
+        keyExtractor={item => item.id}
 
-              renderItem={({ item }) => {
+        renderItem={({ item }) => {
 
-              const metadata = item.service.find(service => service.type === 'metadata')
+        const metadata = item.service.find(service => service.type === 'metadata')
 
-              return <Kachel 
-              
-                  headline={metadata.attributes.main.name}
-                  date={metadata.attributes.main.dateCreated} 
-                  author={metadata.attributes.main.author}
-                  id={item.id}
-                  description={metadata.attributes.additionalInformation.description}
+        return <Kachel 
+      
+          headline={metadata.attributes.main.name}
+          date={metadata.attributes.main.dateCreated} 
+          author={metadata.attributes.main.author}
+          id={item.id}
+          description={metadata.attributes.additionalInformation.description}
 
-              />
-              }}
-          />
-          
-          <BottomSheet
-              ref={sheetRef}
-              snapPoints={['40%', '1%']}
-              initialSnap={1}
-              borderRadius={10}
-              renderContent={renderContent}
-              enabledContentTapInteraction={enableContent}
-          />
-          
-      </SafeAreaView>
+        />
+        }}
+      />
+      
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={['40%', '1%']}
+        initialSnap={1}
+        borderRadius={10}
+        renderContent={renderContent}
+        enabledContentTapInteraction={enableContent}
+      />
+        
+    </SafeAreaView>
   );
 }
 
