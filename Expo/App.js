@@ -24,11 +24,8 @@ function App () {
   const sheetRef = React.useRef(null);
   const enableContent = false;
   const [search, setSearch] = useState('');
-
-
   const [ApiString, setString] = useState('');
   const [textinput, setTextInput] = useState('');
-  const [tags, setTags] = useState('');
 
 
   const renderContent = () => (
@@ -46,24 +43,6 @@ function App () {
         </TouchableHighlight>
       </View>
 
-      {/*Eingabe für Assets Pro Seite*/}
-      <View style={styles.containerAssetsProSeite}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setTextInput}
-          value={String(textinput)}
-          placeholder="anzahl Assets Pro Seite"
-          keyboardType="default"
-        />
-        <Button onPress = {() => {
-          if(textinput === '') {
-            setAnzahlAssets(10);
-          } else {
-            setAnzahlAssets(textinput);
-          }
-        }} title='submit'/>
-      </View>
-
       {/*Eingabe für Search funktion*/}
       <View style={styles.containerAssetsProSeite}>
         <TextInput
@@ -73,33 +52,33 @@ function App () {
           placeholder="Search"
           keyboardType="default"
         />
-        <Button onPress = {() => {
+        <Button color='#46daff' onPress = {() => {
           if(search === '') {
             setString('');
           } else {
-            setString('europe AND service.attributes.main.name:' + search + ' AND');
+            setString(search + ' AND');
           }
         }} title='submit' />
       </View>
 
-      {/*Eingabe für tags funktion*/}
+      {/*Eingabe für Assets Pro Seite*/}
       <View style={styles.containerAssetsProSeite}>
         <TextInput
           style={styles.input}
-          onChangeText={setTags}
-          value={String(tags)}
-          placeholder="Search for tag"
+          onChangeText={setTextInput}
+          value={String(textinput)}
+          placeholder="anzahl Assets Pro Seite"
           keyboardType="default"
         />
-        <Button onPress = {() => {
-          if(tags === '') {
-            setString('');
+        <Button color='#46daff' onPress = {() => {
+          if(textinput === '') {
+            setAnzahlAssets(10);
           } else {
-            setString('europe AND service.attributes.additionalInformation.tags:' + tags + ' AND');
+            setAnzahlAssets(textinput);
           }
-        }} title='submit' />
+        }} title='submit'/>
       </View>
-        
+
     </View>
   );
 
