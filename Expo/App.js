@@ -83,7 +83,7 @@ function App () {
       </View>
 
       {/*Eingabe für tags funktion*/}
-      {/* <View style={styles.containerAssetsProSeite}>
+      <View style={styles.containerAssetsProSeite}>
         <TextInput
           style={styles.input}
           onChangeText={setTags}
@@ -92,13 +92,13 @@ function App () {
           keyboardType="default"
         />
         <Button onPress = {() => {
-          if(search === '') {
+          if(tags === '') {
             setString('');
           } else {
             setString('europe AND service.attributes.additionalInformation.tags:' + tags + ' AND');
           }
         }} title='submit' />
-      </View> */}
+      </View>
         
     </View>
   );
