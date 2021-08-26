@@ -107,10 +107,10 @@ function App () {
         {text: "Yes", onPress: () => Linking.openURL('https://market.oceanprotocol.com/')},
         {text: "No"},
         ])}>
-        <Text style={styles.ueberschrift}>Gaia-X Portal (powered by Ocean Protocol)</Text>
+        <Text style={styles.ueberschrift}>Gaia-X Catalogue</Text>
       </TouchableHighlight>
 
-      <Text style={{color: 'white',}}>trade data sets in the Gaia-X network (powered by Ocean Protocol)</Text>
+      <Text style={{color: 'white',}}>An app to browse and find Assets and their Self-Descriptions in the Gaia-X Network. Powered by Ocean Protocol</Text>
 
       <FlatList
         data = {data1.results}
