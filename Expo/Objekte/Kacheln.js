@@ -8,7 +8,7 @@ import {
   } from 'react-native';
 import styles from '../CSS/css';
 
-var AssetLink = ' https://portal.minimal-gaia-x.eu/asset/';
+var AssetLink = 'https://portal.minimal-gaia-x.eu/asset/';
 
 const Kachel = (props) => (
 <TouchableHighlight onPress= {() => Alert.alert('Open Website', 'Leaving App and open the webside for: '+props.headline, [
@@ -25,8 +25,5 @@ const Kachel = (props) => (
     </View>
 </TouchableHighlight>
 );
-
-
-
 
 export default Kachel;
